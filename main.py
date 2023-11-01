@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from sqlmodel import Session, select
 from .database import engine, init_db
 from .models import User
-from .auth import get_password_hash, create_access_token, get_current_user
+from .auth import verify_password, create_access_token, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import timedelta
 
 app = FastAPI()
