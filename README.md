@@ -16,10 +16,10 @@ FastAPIを使用してSQLiteとSQLModelを用いたユーザ認証付きのREST 
    from sqlmodel import Field, SQLModel
 
    class User(SQLModel, table=True):
-       id: Optional[int] = Field(default=None, primary_key=True)
-       email: str = Field(unique=True, index=True)
-       username: str
-       hashed_password: str
+      id: Optional[int] = Field(default=None, primary_key=True)
+      email: str = Field(unique=True, index=True)
+      username: str
+      hashed_password: str
    ```
 
    ここで、`User`クラスはSQLModelを継承しており、SQLiteデータベースに保存されるテーブルの構造を定義しています。`email`フィールドにはユニーク制約を設定しています。
@@ -30,7 +30,6 @@ FastAPIを使用してSQLiteとSQLModelを用いたユーザ認証付きのREST 
    `database.py`:
    ```python
    from sqlmodel import create_engine, SQLModel, Session
-   from .models import User
 
    DATABASE_URL = "sqlite:///./test.db"
    engine = create_engine(DATABASE_URL, echo=True)
@@ -46,6 +45,7 @@ FastAPIを使用してSQLiteとSQLModelを用いたユーザ認証付きのREST 
 
    `auth.py`:
    ```python
+   from fastapi import status, HTTPException
    from jose import JWTError, jwt
    from datetime import datetime, timedelta
    from passlib.context import CryptContext
@@ -98,9 +98,9 @@ FastAPIを使用してSQLiteとSQLModelを用いたユーザ認証付きのREST 
    ```python
    from fastapi import FastAPI, Depends, HTTPException, status
    from sqlmodel import Session, select
-   from .database import engine, init_db
-   from .models import User
-   from .auth import get_password_hash, create_access_token, get_current_user
+   from database import engine, init_db
+   from models import User
+   from auth import get_password_hash, create_access_token, get_current_user
    from datetime import timedelta
 
    app = FastAPI()
