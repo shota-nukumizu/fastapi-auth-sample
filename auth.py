@@ -1,3 +1,4 @@
+from fastapi import status, HTTPException
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
